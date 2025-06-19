@@ -1,7 +1,11 @@
-# Define the directory where the files will be created
-$TargetDirectory = "d:\temp3"
+# Defining the temp directory where the files will be created.
+$TargetDirectory = "d:\temp"
 
-# Sample word list to pick random words from
+<# 
+Name list being referenced. 
+If you change the name of the reference name variables, make sure to change the reference in $wordlist so that it's included.
+#>
+
 $ffNames = @(
 "Cloud", "Tifa", "Barret", "Aerith", "Sephiroth", "Zack", "Cid", "Vincent", "Yuffie", "RedXIII",
 "Squall", "Rinoa", "Zell", "Quistis", "Selphie", "Irvine", "Laguna", "Seifer", "Ultimecia",
@@ -44,15 +48,22 @@ $sonicNames = @(
 
 $wordList = $ffNames + $minecraftNames + $marioNames + $sonicNames
 
-# Ensure the directory exists
+# Ensure the directory exists, if not will be created.
 if (-not (Test-Path -Path $TargetDirectory)) {
     New-Item -ItemType Directory -Path $TargetDirectory | Out-Null
 }
 
-# Generate dummy files with two random words as filename and timestamp inside
+<# 
+Generate dummy files with two random words as filename and timestamp inside. 
+The time stamp was included in the random file because in testing, having files with zero bytes caused issues trying to delete them in File Explorer.
+Oddly enough, once the files had some data in them, it was faster to delete the same amount of files from the same location.
+
+It's currently set to make 5,000 dummy files. To make that into a different number, simply make the change below.
+#>
+
 Write-Host "Generating Random Files ... "
 
-for ($i = 1; $i -le 10000; $i++) {
+for ($i = 1; $i -le 5000; $i++) {
     # Pick two random words from the list
     $word1 = Get-Random -InputObject $wordList
     $word2 = Get-Random -InputObject $wordList
@@ -69,5 +80,4 @@ for ($i = 1; $i -le 10000; $i++) {
     # Create the file and insert the timestamp inside
     Set-Content -Path $filePath -Value "File created on $timestamp"
 }
-
 Write-Host "$i dummy files with timestamp created in $TargetDirectory"
