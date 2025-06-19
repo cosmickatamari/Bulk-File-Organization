@@ -80,4 +80,5 @@ for ($i = 1; $i -le 5000; $i++) {
     # Create the file and insert the timestamp inside
     Set-Content -Path $filePath -Value "File created on $timestamp"
 }
+
 Write-Host "$i dummy files with timestamp created in $TargetDirectory"
