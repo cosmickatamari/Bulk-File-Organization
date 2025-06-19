@@ -1,10 +1,18 @@
-# Defining the temp directory where the files will be created.
-$TargetDirectory = "d:\temp"
-
 <# 
-Name list being referenced. 
-If you change the name of the reference name variables, make sure to change the reference in $wordlist so that it's included.
-#>
+Make Junk Files
+Originally from: https://github.com/cosmickatamari/Bulk-File-Organization/tree/main
+Last Updated: 6/19/2025 by Cosmic Katamari
+
+-----
+
+This is a pretty standard script that will read from the below arrays for file names, and generate a predefined amount of junk files (amount can be changed at the bottom). 
+The time stamp was included in the random file because in testing, having files with zero bytes caused issues trying to delete them in File Explorer. Oddly enough, once the files had some data in them, it was faster to delete the same amount of files from the same location.
+
+If you make any changes to the array names, make sure to change the reference in $wordlist so that it's included.
+It's currently set to make 5,000 dummy files. To make that into a different number, simply make the change below.
+#> 
+
+$TargetDirectory = "d:\temp"
 
 $ffNames = @(
 "Cloud", "Tifa", "Barret", "Aerith", "Sephiroth", "Zack", "Cid", "Vincent", "Yuffie", "RedXIII",
@@ -48,20 +56,12 @@ $sonicNames = @(
 
 $wordList = $ffNames + $minecraftNames + $marioNames + $sonicNames
 
-# Ensure the directory exists, if not will be created.
+# Ensure the directory exists, if not will be created then generate junk files.
 if (-not (Test-Path -Path $TargetDirectory)) {
     New-Item -ItemType Directory -Path $TargetDirectory | Out-Null
 }
 
-<# 
-Generate dummy files with two random words as filename and timestamp inside. 
-The time stamp was included in the random file because in testing, having files with zero bytes caused issues trying to delete them in File Explorer.
-Oddly enough, once the files had some data in them, it was faster to delete the same amount of files from the same location.
-
-It's currently set to make 5,000 dummy files. To make that into a different number, simply make the change below.
-#>
-
-Write-Host "Generating Random Files ... "
+Write-Host "Generating Random Junk Files ... "
 
 for ($i = 1; $i -le 5000; $i++) {
     # Pick two random words from the list
