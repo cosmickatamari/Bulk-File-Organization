@@ -1,18 +1,19 @@
 <# 
 Make Junk Files
-Originally from: https://github.com/cosmickatamari/Bulk-File-Organization/tree/main
-Last Updated: 6/19/2025 by Cosmic Katamari
-
------
+https://github.com/cosmickatamari/Bulk-File-Organization
+Created by cosmickatamari
+Updated: 1/17/2026
 
 This is a pretty standard script that will read from the below arrays for file names, and generate a predefined amount of junk files (amount can be changed at the bottom). 
+
 The time stamp was included in the random file because in testing, having files with zero bytes caused issues trying to delete them in File Explorer. Oddly enough, once the files had some data in them, it was faster to delete the same amount of files from the same location.
 
 If you make any changes to the array names, make sure to change the reference in $wordlist so that it's included.
-It's currently set to make 5,000 dummy files. To make that into a different number, simply make the change below.
+It's currently set to make 500 dummy files. To make that into a different number, simply make the change below.
 #> 
 
 $TargetDirectory = "d:\temp"
+$fileCount = 500
 
 $ffNames = @(
 "Cloud", "Tifa", "Barret", "Aerith", "Sephiroth", "Zack", "Cid", "Vincent", "Yuffie", "RedXIII",
@@ -63,13 +64,13 @@ if (-not (Test-Path -Path $TargetDirectory)) {
 
 Write-Host "Generating Random Junk Files ... "
 
-for ($i = 1; $i -le 5000; $i++) {
+for ($i = 1; $i -le $fileCount; $i++) {
     # Pick two random words from the list
     $word1 = Get-Random -InputObject $wordList
     $word2 = Get-Random -InputObject $wordList
 
     # Combine them with an underscore for the file name
-    $RandomFileName = "$word1 $word2.txt"
+    $RandomFileName = "$word1`_$word2.txt"
 
     # Full file path
     $filePath = Join-Path -Path $TargetDirectory -ChildPath $RandomFileName
@@ -81,4 +82,4 @@ for ($i = 1; $i -le 5000; $i++) {
     Set-Content -Path $filePath -Value "File created on $timestamp"
 }
 
-Write-Host "$i dummy files with timestamp created in $TargetDirectory"
+Write-Host "$fileCount dummy files with timestamp created in $TargetDirectory"

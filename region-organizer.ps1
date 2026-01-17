@@ -1,4 +1,12 @@
-# Quick Script for folder and file cleanup based on file region.
+<#
+Make Junk Files
+https://github.com/cosmickatamari/Bulk-File-Organization
+Created by cosmickatamari
+Updated: 1/17/2026
+
+Script for folder and file cleanup based on file region.
+These variables can be easily changed to match your needs.
+#>
 
 # Declaring Global Variables
 $RegionCounts = @{}
@@ -8,17 +16,28 @@ $startTime = Get-Date
 Add-Type -AssemblyName Microsoft.VisualBasic
 
 # Prompt for folder path (manual input, allows UNC paths)
-$SourceFolder = [Microsoft.VisualBasic.Interaction]::InputBox(
-    "Enter the source folder (local or network) path (ex. \\tower.local\share):"
-)
+do {
+    $SourceFolder = [Microsoft.VisualBasic.Interaction]::InputBox(
+        "Enter the source folder (local or network) path (ex. \\tower.local\share):"
+    )
+
+    if ([string]::IsNullOrWhiteSpace($SourceFolder)) {
+        Write-Host "No source folder provided. Exiting." -ForegroundColor Yellow
+        return
+    }
+
+    if (-not (Test-Path -LiteralPath $SourceFolder)) {
+        Write-Host "Path not found: $SourceFolder" -ForegroundColor Yellow
+    }
+} until (Test-Path -LiteralPath $SourceFolder)
 
 # Region variables (change as needed).
 function Get-RegionFromFileName($name) {
-    if ($name -match '(USA)') { return '01 - USA' }
-    	elseif ($name -match '(World)') { return '01 - USA' }
-	elseif ($name -match '(Japan)') { return '02 - Japan' }
-    	elseif ($name -match '(Europe)') { return '03 - Europe' }
-    	else { return '99 - Other' }
+    if ($name -match '\(USA\)') { return '01 - USA' }
+    elseif ($name -match '\(World\)') { return '01 - USA' }
+    elseif ($name -match '\(Japan\)') { return '02 - Japan' }
+    elseif ($name -match '\(Europe\)') { return '03 - Europe' }
+    else { return '99 - Other' }
 }
 
 # Process files
@@ -36,7 +55,12 @@ Get-ChildItem -Path $SourceFolder -File | ForEach-Object {
 	Write-Host "Moving file '$($_.Name)' to folder '$region'" -ForegroundColor DarkGreen
 
     # If you get an error message on this part where the files are being moved, you should use PowerShell 7.5.1 or above.
-    Move-Item -Path $_.FullName -Destination $targetFolder -Force
+    try {
+        Move-Item -Path $_.FullName -Destination $targetFolder -Force -ErrorAction Stop
+    } catch {
+        Write-Host "Failed to move '$($_.Name)': $($_.Exception.Message)" -ForegroundColor Yellow
+        return
+    }
 
 <# 
 Checks to see if there are more than 256 files in a folder.
@@ -45,7 +69,7 @@ If there are more than 256 files, multiple child folders are created and the fil
 This is to help with Everdrive listing constraints of 256.
 #> 
 
-# Update region count.
+    # Update region count.
     if (-not $RegionCounts.ContainsKey($region)) {
         $RegionCounts[$region] = 0
     }
@@ -74,6 +98,14 @@ $RegionCounts.Keys | ForEach-Object {
     }
 
     # Process each chunk
+    $consoleWidth = 120
+    try {
+        if ([console]::WindowWidth -gt 0) {
+            $consoleWidth = [console]::WindowWidth
+        }
+    } catch {
+    }
+
     for ($j = 0; $j -lt $chunks.Count; $j++) {
         $chunk = $chunks[$j]
         $firstWord = ($chunk[0].BaseName -split '\s+')[0]
@@ -90,8 +122,12 @@ $RegionCounts.Keys | ForEach-Object {
         for ($i = 0; $i -lt $chunk.Count; $i++) {
             $file = $chunk[$i]
             $progressMsg = "Moving file $($i + 1) of $($chunk.Count) - ($($file.Name))"
-            Write-Host -NoNewline ($progressMsg.PadRight([console]::WindowWidth) + "`r") -ForegroundColor DarkGreen
-            Move-Item -Path $file.FullName -Destination $chunkFolder -Force
+            Write-Host -NoNewline ($progressMsg.PadRight($consoleWidth) + "`r") -ForegroundColor DarkGreen
+            try {
+                Move-Item -Path $file.FullName -Destination $chunkFolder -Force -ErrorAction Stop
+            } catch {
+                Write-Host "`nFailed to move '$($file.Name)': $($_.Exception.Message)" -ForegroundColor Yellow
+            }
         }
     }
 }
