@@ -1,8 +1,4 @@
-# Bulk File Organization
-
-![Bulk File Organization Header Image]([https://raw.githubusercontent.com/cosmickatamari/cosmic-file-suite/refs/heads/main/banner2026.png])
-
-![Alt Text](banner2026.jpg)
+<img width="1280" height="640" alt="banner2026" src="https://github.com/user-attachments/assets/eef4b608-0a9d-4339-93ff-b8f5b0f6cbeb" />
 
 This repository of scripts aims to easily manage a large amount of files. I've decided that after a long time of needing to perform the same repeditive tasks isn't fun, so I scripted these things out. With that, I figured someone else out there might benefit from it as well. Everything on here was tested using PowerShell 7.5.1 in administrator mode on Windows 11 24h2. 
 
