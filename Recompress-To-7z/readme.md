@@ -191,3 +191,7 @@ Summary:
 
 **Q: Will it preserve folder structure when recursive?**
 **A:** Yes. With `-Recursive`, the destination mirrors the source subfolder structure. Difference being that non-7z archives will be replaced with 7z archives. None archive files are ignored.
+
+## Project
+
+Part of: https://github.com/cosmickatamari/cosmic-file-suite
