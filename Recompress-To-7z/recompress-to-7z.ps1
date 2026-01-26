@@ -684,7 +684,7 @@ if ($Help) {
 
 Write-Host ""
 Write-Host "=== [ cosmickatamari's 7z Recompressor ]===" -ForegroundColor Blue
-Write-Host "=== [ Version 2026.2 ] ===" -ForegroundColor Blue
+Write-Host "=== [ Version 2026.3 ] ===" -ForegroundColor Blue
 Write-Host ""
 
 $didPrompt = $false
