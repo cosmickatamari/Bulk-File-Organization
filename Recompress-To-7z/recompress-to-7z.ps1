@@ -1,6 +1,6 @@
 ﻿<#
 Recompress to 7z
-https://github.com/cosmickatamari/cosmic-file-suite/tree/main/Recompress-To-7z
+https://github.com/cosmickatamari/cosmic-file-suite/
 
 Created by: cosmickatamari
 Updated: 01/25/2026
