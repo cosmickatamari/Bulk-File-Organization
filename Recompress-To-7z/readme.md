@@ -49,6 +49,7 @@ The script handles large batch operations, including nested directory structures
 ** *Note:* ** This script was programmed and tested with Windows 11 25H2 and 7-Zip 22.01 (x64). On a network share accessed over a 1GbE connection.
 
 ## Mode Differences
+
 |  | Default | -Old |
 | -- | -- | -- |
 | Compression Level | 9 - Ultra | 9 - Ultra |
@@ -117,16 +118,16 @@ Legacy compression (lower memory/CPU usage):
 
 ### Flags
 
-- `-Include` — process existing `.7z` files.
-- `-Skip` — skip existing `.7z` files (default).
-- `-Recursive` — include subdirectories during the scan.
-- `-Replace` — write new `.7z` into source folder and delete original archive.
-- `-Delete` — delete original archive after recompression.
-- `-FAT32` — split output into 4,000mb volumes.
-- `-CDROM` — split output into 650mb volumes.
-- `-Fast` — skip fallback file count (faster, less accurate stats).
-- `-Ignore` — Use `recomp-ignore.txt` in the source folder for folders to exclude.
-- `-Old` — use legacy compression settings.
+- `-Include` - process existing `.7z` files.
+- `-Skip` - skip existing `.7z` files (default).
+- `-Recursive` - include subdirectories during the scan.
+- `-Replace` - write new `.7z` into source folder and delete original archive.
+- `-Delete` - delete original archive after recompression.
+- `-FAT32` - split output into 4,000mb volumes.
+- `-CDROM` - split output into 650mb volumes.
+- `-Fast` - skip fallback file count (faster, less accurate stats).
+- `-Ignore` - Use `recomp-ignore.txt` in the source folder for folders to exclude.
+- `-Old` - use legacy compression settings.
 
 ### Paths
 
@@ -161,24 +162,31 @@ Summary:
 ## FAQ
 
 **Q: Why do some `.7z` files get larger after recompressing?**
+
 **A:** The source archive may already be optimal (solid mode, dictionary size, filters). Recompressing with different settings can increase size, especially for already compressed data (images/audio/video).
 
 **Q: When should I use `-Old`?**
+
 **A:** Use it on low memory or lower core systems. It uses a lighter compression profile that is slower to compress than zip but consumes less RAM/CPU than the optimized default. It will still generate better results than using `ZIP` or `RAR`.
 
 **Q: How do I setup the ignore file?**
+
 **A:** Each line should be a seperate directory.
 
 **Q: How do I include existing `.7z` files?**
+
 **A:** Pass `-Include`. Without it, `.7z` files are skipped by default.
 
 **Q: Why did the script ask to re‑enter the destination folder?**
+
 **A:** If `-Replace` and `-Delete` are both off, source and destination cannot be the same to avoid overwriting.
 
 **Q: I’m using network paths/UNC shares. Is that supported?**
+
 **A:** Yes. The script resolves provider paths to filesystem paths before calling 7‑Zip, which avoids UNC prefix issues.
 
 **Q: How do I re‑run the same job after an error?**
+
 **A:** The script prints a “Re‑run command” line before processing begins. Copy/paste that to retry.
 
 **Q: Will it preserve folder structure when recursive?**
