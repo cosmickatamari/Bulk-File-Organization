@@ -16,3 +16,9 @@ Scripts in this repository are:
   + Japan into the defined folder for Japan.
   + Europe into the defined folder for Europe.
   + A catch all folder for what is remaining goes into a folder called "Other".
+
+
+| * | Intended | Old |
+| Processing Time | | 20:31:42 |
+| New Compressed Size | | 304.43gb |
+| Space Saved | | 17.79gb (5.52%) |
