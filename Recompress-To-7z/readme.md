@@ -1,23 +1,19 @@
 # Recompress-To-7z
-
 ![7-Zip](https://img.shields.io/badge/7--Zip-required-blue) ![PowerShell](https://img.shields.io/badge/PowerShell-7%2B-blue) ![Windows](https://img.shields.io/badge/Windows-11%2B-blue)
 
 **Recompress-To-7z** is a PowerShell script that converts existing archives into `.7z` format using optimized compression settings to reduce storage size.
 
 ## Overview
-
 This script is designed to recompress mixed archive formats (`rar`, `zip`, etc.) into high-compression `7z` files while keeping output organized and providing clear progress and summary information. It also supports optionally recompressing existing .7z archives using more aggressively tuned compression settings.
 
 The script handles large batch operations, including nested directory structures, supports optional archive splitting for media or backup targets, and includes safety checks to help prevent destructive operations or accidental data loss.
 
 ## Purpose
-
 - Reduce long-term storage requirements for archive collections.
 - Normalize multiple archive formats into a single high-compression format.
 - Automate bulk recompression with accurate progress and reporting.
 
 ## Features
-
 - **Optimized `.7z` compression** (default high‑performance profile).
 - **Legacy compression mode** (`-Old`) for low‑memory/CPU systems (not as many options are used).
 - **Recursive scanning** with preserved folder structure.
@@ -29,7 +25,6 @@ The script handles large batch operations, including nested directory structures
 - **Rerun command** printed before processing for easy recovery.
 
 ## System Requirements
-
 - PowerShell 7+
 - 7‑Zip installed at: `C:\Program Files\7-Zip\7z.exe`
   - Or provide the path when prompted
@@ -46,10 +41,9 @@ The script handles large batch operations, including nested directory structures
 		- Western Digital Red Plus - 3tb
 		- Unraid XFS Array - 21x drives totaling 154tb
 
-** *Note:* ** This script was programmed and tested with Windows 11 25H2 and 7-Zip 22.01 (x64). On a network share accessed over a 1GbE connection.
+*Note:* This script was programmed and tested with Windows 11 25H2 and 7-Zip 22.01 (x64). On a network share accessed over a 1GbE connection.
 
 ## Mode Differences
-
 |  | Default | -Old |
 | -- | -- | -- |
 | Compression Level | 9 - Ultra | 9 - Ultra |
@@ -61,7 +55,6 @@ The script handles large batch operations, including nested directory structures
 | Solid Compression | Yes | No |
 
 ## Results
-
 The testing sample was a mixture of `7z` and `zip` files totaling 304.43gb.
 
 |  | Default | -Old |
@@ -71,7 +64,6 @@ The testing sample was a mixture of `7z` and `zip` files totaling 304.43gb.
 | Space Saved | 50.90gb (16.72%) | 17.79gb (5.52%) |
 
 ## Usage
-
 Provides on screen help:
 ```powershell
 .\Recompress-To-7z.ps1 -Help
@@ -115,9 +107,7 @@ Legacy compression (lower memory/CPU usage):
 ** *Note:* ** You will be prompted for any missing parameters, unless they are mutually exclusive with a provided parameter.
 
 ## Key Parameters
-
 ### Flags
-
 - `-Include` - process existing `.7z` files.
 - `-Skip` - skip existing `.7z` files (default).
 - `-Recursive` - include subdirectories during the scan.
@@ -130,13 +120,11 @@ Legacy compression (lower memory/CPU usage):
 - `-Old` - use legacy compression settings.
 
 ### Paths
-
 - `-Source <path>`
 - `-Temp <path>`
 - `-Dest <path>` (ignored when `-Replace` is used)
 
 ## Notes
-
 - If both `-Include` and `-Skip` are used, **`-Skip` has priority** and `-Include` is ignored.
 - If both `-FAT32` and `-CDROM` are used, **`-CDROM` has priority** and `-FAT32` is ignored.
 - `-Replace` implies delete of the original archive.
@@ -146,7 +134,6 @@ Legacy compression (lower memory/CPU usage):
 - Temp extraction files and folders are cleaned up automatically.
 
 ## What You’ll See
-
 Per file:
 - Extracting progress.
 - Compressing progress.
@@ -160,7 +147,6 @@ Summary:
 - Space saved and percentage.
 
 ## FAQ
-
 **Q: Why do some `.7z` files get larger after recompressing?**
 
 **A:** The source archive may already be optimal (solid mode, dictionary size, filters). Recompressing with different settings can increase size, especially for already compressed data (images/audio/video).
@@ -193,5 +179,4 @@ Summary:
 **A:** Yes. With `-Recursive`, the destination mirrors the source subfolder structure. Difference being that non-7z archives will be replaced with 7z archives. None archive files are ignored.
 
 ## Project
-
 Part of: https://github.com/cosmickatamari/cosmic-file-suite
